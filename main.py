@@ -1,12 +1,12 @@
-from PyQt6.QtWidgets import QApplication, QWidget
+from PyQt6.QtWidgets import QApplication
+from main_window import MainWindowUi
 import sys
 
-from main_window import UiMainWindow
 
 if __name__=='__main__':
     app = QApplication(sys.argv)
 
-    window = UiMainWindow()
+    window = MainWindowUi()
     window.show()
 
     app.exec()
