@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1460</width>
+    <width>1000</width>
     <height>750</height>
    </rect>
   </property>
@@ -34,20 +34,26 @@
     <property name="geometry">
      <rect>
       <x>850</x>
-      <y>380</y>
-      <width>41</width>
+      <y>610</y>
+      <width>141</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
     </property>
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
     </property>
-    <property name="text">
-     <string/>
+    <property name="styleSheet">
+     <string notr="true">border: 2px solid #ABABAB;
+border-radius: 10px;
+background-color: #DADADA;</string>
     </property>
-    <property name="icon">
-     <iconset>
-      <normaloff>icons/start_rec.ico</normaloff>icons/start_rec.ico</iconset>
+    <property name="text">
+     <string>Начать прием</string>
     </property>
     <property name="iconSize">
      <size>
@@ -62,23 +68,33 @@
    <widget class="QPushButton" name="bFinishRecord">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>360</y>
-      <width>75</width>
-      <height>24</height>
+      <x>820</x>
+      <y>660</y>
+      <width>171</width>
+      <height>41</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 2px solid #ABABAB;
+border-radius: 10px;
+background-color: #DADADA;</string>
+    </property>
     <property name="text">
-     <string>PushButton</string>
+     <string>Закончить прием</string>
     </property>
    </widget>
    <widget class="QTextEdit" name="symptomsET">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>310</y>
-      <width>261</width>
-      <height>251</height>
+      <x>10</x>
+      <y>320</y>
+      <width>381</width>
+      <height>400</height>
      </rect>
     </property>
     <property name="font">
@@ -94,18 +110,27 @@ border-radius: 10px;</string>
    <widget class="QTextEdit" name="textEdit_2">
     <property name="geometry">
      <rect>
-      <x>313</x>
-      <y>310</y>
+      <x>400</x>
+      <y>320</y>
       <width>271</width>
-      <height>251</height>
+      <height>121</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 2px solid #ABABAB;
+border-radius: 10px;</string>
     </property>
    </widget>
    <widget class="QLabel" name="symptomLabel">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>280</y>
+      <x>10</x>
+      <y>293</y>
       <width>104</width>
       <height>29</height>
      </rect>
@@ -125,7 +150,7 @@ min-width: 100px;
 max-height: 25px;
 max-width: 100px;
 background-color: #DADADA;
-text-alignment: center;</string>
+</string>
     </property>
     <property name="frameShape">
      <enum>QFrame::NoFrame</enum>
@@ -142,12 +167,190 @@ text-alignment: center;</string>
     <property name="text">
      <string>симптомы</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>330</x>
-      <y>290</y>
+      <x>400</x>
+      <y>293</y>
+      <width>104</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+border: 2px solid #ABABAB;
+min-height: 25px;
+min-width: 100px;
+max-height: 25px;
+max-width: 100px;
+background-color: #DADADA;</string>
+    </property>
+    <property name="text">
+     <string>диагноз</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>661</width>
+      <height>261</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>GroupBox</string>
+    </property>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>49</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>120</y>
+       <width>49</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>170</y>
+       <width>49</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>210</y>
+       <width>49</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>390</x>
+       <y>170</y>
+       <width>49</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>480</y>
+      <width>271</width>
+      <height>231</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border: 2px solid #ABABAB;
+border-radius: 10px;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>453</y>
+      <width>104</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-top-left-radius: 10px;
+border-top-right-radius: 10px;
+border: 2px solid #ABABAB;
+min-height: 25px;
+min-width: 100px;
+max-height: 25px;
+max-width: 100px;
+background-color: #DADADA;</string>
+    </property>
+    <property name="text">
+     <string>лекарства</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>50</y>
+      <width>281</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>340</y>
       <width>49</width>
       <height>16</height>
      </rect>
@@ -162,7 +365,7 @@ text-alignment: center;</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1460</width>
+     <width>1000</width>
      <height>22</height>
     </rect>
    </property>
