@@ -88,7 +88,7 @@ background-color: #DADADA;</string>
      <string>Закончить прием</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="symptomsET">
+   <widget class="QTextEdit" name="etSymptoms">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -107,7 +107,7 @@ background-color: #DADADA;</string>
 border-radius: 10px;</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_2">
+   <widget class="QTextEdit" name="etDiagnose">
     <property name="geometry">
      <rect>
       <x>400</x>
@@ -401,7 +401,7 @@ padding-left: 2px;
      </property>
     </widget>
    </widget>
-   <widget class="QTextEdit" name="textEdit">
+   <widget class="QTextEdit" name="etDrugs">
     <property name="geometry">
      <rect>
       <x>400</x>
@@ -527,7 +527,7 @@ background-color: #FEC2C4;</string>
      <string>Экспорт в PDF</string>
     </property>
    </widget>
-   <widget class="QTextEdit" name="textEdit_3">
+   <widget class="QTextEdit" name="etNotes">
     <property name="geometry">
      <rect>
       <x>690</x>
