@@ -1,8 +1,9 @@
-import openai
 import whisper
-from secret_api_key import WHISPER_API_KEY
 
-openai.api_key = WHISPER_API_KEY
+whisper_model = whisper.load_model("small")
 
-model = whisper.load_model("medium")
-result = model.transcribe(audio="audio.wav", language="ru", model=model)
+def transcribe_speech(file_with_speech):
+    res = whisper_model.transcribe(file_with_speech, language="ru")
+    print(res["text"])
+
+    return res
