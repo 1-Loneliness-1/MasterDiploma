@@ -1,5 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QMainWindow
+import voice_file_manipulation as vfm
 
 
 class MainWindow(QMainWindow):
@@ -23,18 +24,19 @@ class Ui_mainWindow(object):
         mainWindow.setLocale(QtCore.QLocale(QtCore.QLocale.Language.Russian, QtCore.QLocale.Country.Russia))
         self.centralwidget = QtWidgets.QWidget(parent=mainWindow)
         self.centralwidget.setObjectName("centralwidget")
+
         self.bStartStopRecord = QtWidgets.QPushButton(parent=self.centralwidget)
         self.bStartStopRecord.setGeometry(QtCore.QRect(850, 610, 141, 41))
         font = QtGui.QFont()
         font.setPointSize(14)
         self.bStartStopRecord.setFont(font)
         self.bStartStopRecord.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
-        self.bStartStopRecord.setStyleSheet("border: 2px solid #ABABAB;\n"
-"border-radius: 10px;\n"
-"background-color: #DADADA;")
+        self.bStartStopRecord.setStyleSheet("border: 2px solid #ABABAB;\nborder-radius: 10px;\nbackground-color: #DADADA;")
         self.bStartStopRecord.setIconSize(QtCore.QSize(32, 32))
         self.bStartStopRecord.setFlat(True)
         self.bStartStopRecord.setObjectName("bStartStopRecord")
+        self.bStartStopRecord.clicked.connect(vfm.audio_rec)
+
         self.bFinishRecord = QtWidgets.QPushButton(parent=self.centralwidget)
         self.bFinishRecord.setGeometry(QtCore.QRect(820, 660, 171, 41))
         font = QtGui.QFont()
