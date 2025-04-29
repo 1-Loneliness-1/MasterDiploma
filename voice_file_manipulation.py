@@ -17,7 +17,7 @@ def audio_rec(output_file="speech.wav", duration=5, sample_rate=16000):
     return audio_prep(output_file)
 
 def audio_prep(input_file):
-    current_audio = AudioSegment.from_file(input_file).normalize().strip_silence(sil_len=600, sil_thresh=-40)
+    current_audio = AudioSegment.from_file(input_file).normalize().strip_silence(silence_len=600, silence_thresh=-40)
 
     out_file = f"prep.wav"
     current_audio.export(out_file, format="wav")
