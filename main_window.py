@@ -1,7 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QMainWindow, QWidget
-import voice_file_manipulation as vfm
-import whisper_api as wa
+from audio_processor import AudioProcessor
 
 
 class MainWindow(QMainWindow):
@@ -9,7 +8,8 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.rec_is_on = False
+        self.audio_processor = AudioProcessor()
+        self.audio_processor.transcription_done.connect(self.update_ui)
 
         central_widget = QWidget()
 
@@ -34,7 +34,7 @@ class MainWindow(QMainWindow):
         self.bStartStopRecord.setIconSize(QtCore.QSize(32, 32))
         self.bStartStopRecord.setFlat(True)
         self.bStartStopRecord.setObjectName("bStartStopRecord")
-        self.bStartStopRecord.clicked.connect(self.start_rec)
+        self.bStartStopRecord.clicked.connect(self.audio_processor.start_process)
 
         self.bFinishRecord = QtWidgets.QPushButton(text="остановить прием", parent=central_widget)
         self.bFinishRecord.setGeometry(QtCore.QRect(820, 660, 171, 41))
@@ -43,7 +43,6 @@ class MainWindow(QMainWindow):
         self.bFinishRecord.setFont(font)
         self.bFinishRecord.setStyleSheet("border: 2px solid #ABABAB;\nborder-radius: 10px;\nbackground-color: #DADADA;")
         self.bFinishRecord.setObjectName("bFinishRecord")
-        self.bFinishRecord.clicked.connect(self.stop_rec)
 
         self.etSymptoms = QtWidgets.QTextEdit(parent=central_widget)
         self.etSymptoms.setGeometry(QtCore.QRect(10, 320, 381, 400))
@@ -235,17 +234,5 @@ class MainWindow(QMainWindow):
 
         self.show()
 
-    def start_rec(self):
-        self.rec_is_on = True
-
-        while self.rec_is_on:
-            file_for_transcribe = vfm.audio_rec()
-            elem_with_text = wa.Transcriber(file_for_transcribe)
-            elem_with_text.signal_with_res.connect(self.parse_text)
-            elem_with_text.start()
-
-    def stop_rec(self):
-        self.rec_is_on = False
-
-    def parse_text(self, text_for_parse):
-        self.etSymptoms.append(text_for_parse)
+    def update_ui(self, transcribed_text):
+        self.etSymptoms.append(transcribed_text)
