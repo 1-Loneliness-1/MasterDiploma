@@ -11,10 +11,11 @@ from audio_processor import AudioProcessor
 
 
 class SimpleUI(QMainWindow):
+
     def __init__(self):
         super().__init__()
         self.audio_processor = AudioProcessor()
-        # self.audio_processor.transcription_done.connect(self.on_transcription_done)
+        self.audio_processor.transcription_done.connect(self.parse_transcribed_audio)
 
         self.setWindowTitle("Новый прием")
         self.setFixedSize(1200, 750)
@@ -252,6 +253,7 @@ class SimpleUI(QMainWindow):
                                                "width: 141px; height: 41px; margin-left: 4px; margin-top: 10px;")
         self.bStartStopReception.setIconSize(QtCore.QSize(32, 32))
         self.bStartStopReception.setFlat(True)
+        self.bStartStopReception.clicked.connect(self.audio_processor.start_process)
         start_reception_and_indicator_layout.addWidget(self.bStartStopReception)
 
         self.bFinishReception = QPushButton(text="завершить прием")
@@ -263,3 +265,6 @@ class SimpleUI(QMainWindow):
                                             "background-color: #C53C3C;\nwidth: 171px;\nheight: 41px;\n"
                                             "margin-left: 250px; margin-top: 10px;")
         second_column_layout.addWidget(self.bFinishReception)
+
+    def parse_transcribed_audio(self, text_from_audio):
+        self.etSymptoms.append(text_from_audio)
