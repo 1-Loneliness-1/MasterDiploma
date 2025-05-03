@@ -1,15 +1,11 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QMainWindow, QWidget
-from audio_processor import AudioProcessor
 
 
 class MainWindow(QMainWindow):
 
     def __init__(self):
         super().__init__()
-
-        self.audio_processor = AudioProcessor()
-        self.audio_processor.transcription_done.connect(self.update_ui)
 
         central_widget = QWidget()
 
@@ -33,8 +29,6 @@ class MainWindow(QMainWindow):
         self.bStartStopRecord.setStyleSheet("border: 2px solid #ABABAB;\nborder-radius: 10px;\nbackground-color: #DADADA;")
         self.bStartStopRecord.setIconSize(QtCore.QSize(32, 32))
         self.bStartStopRecord.setFlat(True)
-        self.bStartStopRecord.setObjectName("bStartStopRecord")
-        self.bStartStopRecord.clicked.connect(self.audio_processor.start_process)
 
         self.bFinishRecord = QtWidgets.QPushButton(text="остановить прием", parent=central_widget)
         self.bFinishRecord.setGeometry(QtCore.QRect(820, 660, 171, 41))
@@ -233,6 +227,3 @@ class MainWindow(QMainWindow):
         self.recognIndicator.setObjectName("recognIndicator")
 
         self.show()
-
-    def update_ui(self, transcribed_text):
-        self.etSymptoms.append(transcribed_text)
