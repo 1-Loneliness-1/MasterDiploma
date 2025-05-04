@@ -1,12 +1,9 @@
-from PyQt6.QtWidgets import QApplication
-from main_window import MainWindow
 import sys
-
+from PyQt6.QtWidgets import QApplication
+from simple_ui import SimpleUI
 
 if __name__=='__main__':
     app = QApplication(sys.argv)
-
-    window = MainWindow()
+    window = SimpleUI()
     window.show()
-
-    app.exec()
+    sys.exit(app.exec())
