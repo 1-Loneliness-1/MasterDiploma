@@ -90,9 +90,9 @@ class SimpleUI(QMainWindow):
         first_column_bottom_h_layout = QHBoxLayout()
         first_column_layout.addLayout(first_column_bottom_h_layout, stretch=2)
 
-        symptoms_layout = QVBoxLayout()
-        symptoms_layout.setSpacing(0)
-        first_column_bottom_h_layout.addLayout(symptoms_layout)
+        symptoms_and_procedures_layout = QVBoxLayout()
+        symptoms_and_procedures_layout.setSpacing(0)
+        first_column_bottom_h_layout.addLayout(symptoms_and_procedures_layout)
 
         self.lSymptoms = QLabel(text="симптомы")
         self.lSymptoms.setGeometry(QtCore.QRect(10, 293, 104, 29))
@@ -108,7 +108,7 @@ class SimpleUI(QMainWindow):
         self.lSymptoms.setLineWidth(1)
         self.lSymptoms.setMidLineWidth(1)
         self.lSymptoms.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-        symptoms_layout.addWidget(self.lSymptoms)
+        symptoms_and_procedures_layout.addWidget(self.lSymptoms)
 
         self.etSymptoms = QTextEdit()
         self.etSymptoms.setPlaceholderText("Начинайте записывать симптомы...")
@@ -119,7 +119,34 @@ class SimpleUI(QMainWindow):
         self.etSymptoms.setStyleSheet("border: 2px solid #ABABAB;\nborder-top-right-radius: 10px;"
                                       "border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;"
                                       "margin-right: 10px; margin-bottom: 10px;")
-        symptoms_layout.addWidget(self.etSymptoms)
+        symptoms_and_procedures_layout.addWidget(self.etSymptoms)
+
+        self.lProcedures = QLabel(text="процедуры")
+        self.lProcedures.setGeometry(QtCore.QRect(10, 293, 104, 29))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(14)
+        self.lProcedures.setFont(font)
+        self.lProcedures.setStyleSheet("border-top-left-radius: 10px;\nborder-top-right-radius: 10px;\n"
+                                        "border: 2px solid #ABABAB;\nmin-height: 25px;\nmin-width: 100px;\nmax-height: 25px;\nmax-width: 100px;\n"
+                                        "background-color: #9B9B9B;\nmargin-top: 10px;")
+        self.lProcedures.setFrameShape(QFrame.Shape.NoFrame)
+        self.lProcedures.setFrameShadow(QFrame.Shadow.Plain)
+        self.lProcedures.setLineWidth(1)
+        self.lProcedures.setMidLineWidth(1)
+        self.lProcedures.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        symptoms_and_procedures_layout.addWidget(self.lProcedures)
+
+        self.etProcedures = QTextEdit()
+        self.etProcedures.setPlaceholderText("Здесь будут направления на сдачу анализов...")
+        self.etProcedures.setGeometry(QtCore.QRect(10, 320, 381, 400))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.etProcedures.setFont(font)
+        self.etProcedures.setStyleSheet("border: 2px solid #ABABAB;\nborder-top-right-radius: 10px;"
+                                      "border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;"
+                                      "margin-right: 10px; margin-bottom: 10px;")
+        symptoms_and_procedures_layout.addWidget(self.etProcedures)
 
         # Формирование столбца с полями "Диагноз" и "лекарства"
         diagnosis_and_drugs_layout = QVBoxLayout()
