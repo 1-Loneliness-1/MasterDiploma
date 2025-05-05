@@ -1,3 +1,5 @@
+from typing import Dict
+
 from PyQt6 import QtGui, QtCore
 from PyQt6.QtWidgets import (
     QMainWindow,
@@ -15,7 +17,7 @@ class SimpleUI(QMainWindow):
     def __init__(self):
         super().__init__()
         self.audio_processor = AudioProcessor()
-        self.audio_processor.transcription_done.connect(self.parse_transcribed_audio)
+        self.audio_processor.entities_recognition_done.connect(self.parse_entities)
 
         self.setWindowTitle("Новый прием")
         self.setFixedSize(1200, 750)
@@ -293,5 +295,12 @@ class SimpleUI(QMainWindow):
                                             "margin-left: 250px; margin-top: 10px;")
         second_column_layout.addWidget(self.bFinishReception)
 
-    def parse_transcribed_audio(self, text_from_audio):
-        self.etSymptoms.append(text_from_audio)
+    def parse_entities(self, entities_dictionary: Dict):
+        for ent_obj in entities_dictionary["entities"]["Drugclass"]:
+            self.etDrugs.append("-" + ent_obj["text"] + "\n")
+
+        for ent_obj in entities_dictionary["entities"]["Drugname"]:
+            self.etDrugs.append("-" + ent_obj["text"] + "\n")
+
+        for ent_obj in entities_dictionary["entities"]["Finding"]:
+            self.etSymptoms.append("-" + ent_obj["text"] + "\n")
