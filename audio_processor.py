@@ -8,7 +8,7 @@ from ner import MedicalWhisperNER
 
 
 class AudioProcessor(QObject):
-    entities_recognition_done = pyqtSignal(Dict)
+    entities_recognition_done = pyqtSignal(object)
 
     def __init__(self):
         super().__init__()

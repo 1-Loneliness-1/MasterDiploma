@@ -70,14 +70,21 @@ def convert_and_save_to_spacy(docs, output_path):
     doc_bin.to_disk(output_path)
 
 
-def train_spacy_model(train_path, model_output_dir="output_model"):
+def train_spacy_model(model_output_dir="output_model"):
     nlp = spacy.blank("ru")
+    files_with_train_data =["medical_procedures.spacy", "train_data.spacy"]
 
     if "ner" not in nlp.pipe_names:
         ner = nlp.add_pipe("ner", last=True)
 
-    doc_bin = DocBin().from_disk(train_path)
-    docs = list(doc_bin.get_docs(nlp.vocab))
+    merged_docbin = DocBin()
+    for file in files_with_train_data:
+        docbin = DocBin().from_disk(file)
+        for doc in docbin.get_docs(nlp.vocab):
+            merged_docbin.add(doc)
+    merged_docbin.to_disk("merged_data.spacy")
+
+    docs = list(merged_docbin.get_docs(nlp.vocab))
 
     for doc in docs:
         for ent in doc.ents:
@@ -96,18 +103,18 @@ def train_spacy_model(train_path, model_output_dir="output_model"):
 
 
 if __name__ == "__main__":
-    name_of_path_with_datasets = "../datasets"
-    file_with_training_data_for_spacy = "train_data.spacy"
-    name_of_retrained_model = "retrained_model"
-    input_jsonl_file = "merged.jsonl"
+    # name_of_path_with_datasets = "../datasets"
+    # file_with_training_data_for_spacy = "train_data.spacy"
+    name_of_retrained_model = "retrained_med_model"
+    # input_jsonl_file = "merged.jsonl"
 
     # Объединение всех jsonl-файлов из папки "datasets" для дообучения spacy
-    path_with_datasets = Path(name_of_path_with_datasets)
-    jsonl_files = sorted(path_with_datasets.glob("*.jsonl"))
-    merge_jsonl_files(jsonl_files, input_jsonl_file)
+    # path_with_datasets = Path(name_of_path_with_datasets)
+    # jsonl_files = sorted(path_with_datasets.glob("*.jsonl"))
+    # merge_jsonl_files(jsonl_files, input_jsonl_file)
 
     # Дообучение spacy
-    nlp = spacy.blank("ru")
-    docs = load_rumedbench_bio(input_jsonl_file, nlp)
-    convert_and_save_to_spacy(docs, file_with_training_data_for_spacy)
-    train_spacy_model(file_with_training_data_for_spacy, name_of_retrained_model)
+    # nlp = spacy.blank("ru")
+    # docs = load_rumedbench_bio(input_jsonl_file, nlp)
+    # convert_and_save_to_spacy(docs, file_with_training_data_for_spacy)
+    # train_spacy_model(name_of_retrained_model)

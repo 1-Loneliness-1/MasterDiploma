@@ -23,7 +23,8 @@
       "Drugclass",
       "Drugform",
       "Drugname",
-      "Finding"
+      "Finding",
+      "PROCEDURE"
     ]
   },
   "pipeline":[
