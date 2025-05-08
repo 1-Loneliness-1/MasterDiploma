@@ -7,7 +7,7 @@ class MedicalWhisperNER(QThread):
     signal_with_res = pyqtSignal(object)
     signal_with_error = pyqtSignal(str)
 
-    def __init__(self, transcribed_text, spacy_model="retrained_med_model"):
+    def __init__(self, transcribed_text, spacy_model="spacy_retrain/output"):
         super().__init__()
         self.nlp = None
         self.spacy_model = spacy_model

@@ -72,7 +72,7 @@ def convert_and_save_to_spacy(docs, output_path):
 
 def train_spacy_model(model_output_dir="output_model"):
     nlp = spacy.blank("ru")
-    files_with_train_data =["medical_procedures.spacy", "train_data.spacy"]
+    files_with_train_data =["train_data.spacy"]
 
     if "ner" not in nlp.pipe_names:
         ner = nlp.add_pipe("ner", last=True)
