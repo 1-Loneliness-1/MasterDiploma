@@ -4,7 +4,7 @@ from typing import Dict
 from PyQt6.QtCore import QObject, pyqtSignal
 from audio_recorder import AudioRecorder
 from audio_transcriber import AudioTranscriber
-from ner import MedicalWhisperNER
+from ner import MedicalNER
 
 
 class AudioProcessor(QObject):
@@ -34,7 +34,7 @@ class AudioProcessor(QObject):
         logging.debug("Транскрипция завершена")
         self.transcriber = None
 
-        self.nlp = MedicalWhisperNER(text)
+        self.nlp = MedicalNER(text)
         self.nlp.signal_with_res.connect(self.handle_ner_done)
         self.nlp.start()
 

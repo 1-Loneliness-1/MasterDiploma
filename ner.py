@@ -3,16 +3,16 @@ import spacy
 from PyQt6.QtCore import QThread, pyqtSignal
 
 
-class MedicalWhisperNER(QThread):
+class MedicalNER(QThread):
     signal_with_res = pyqtSignal(object)
     signal_with_error = pyqtSignal(str)
 
-    def __init__(self, transcribed_text, spacy_model="spacy_retrain/output"):
+    def __init__(self, transcribed_text, spacy_model="spacy_retrain/pretrained_med_model/model-best"):
         super().__init__()
         self.nlp = None
         self.spacy_model = spacy_model
         self.text_for_ner = transcribed_text
-        self.entity_types = ["Drugclass", "Drugname", "Finding", "PROCEDURE"]
+        self.entity_types = ["Drugname", "symptom", "procedure"]
 
     def run(self):
         try:
