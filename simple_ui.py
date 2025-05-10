@@ -17,6 +17,8 @@ class SimpleUI(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        self.patient_id = 0
+
         self.audio_processor = AudioProcessor()
         self.audio_processor.entities_recognition_done.connect(self.parse_entities)
         self.database = MySqlConnector()
@@ -199,6 +201,8 @@ class SimpleUI(QMainWindow):
         patients = self.database.get_info_about_patient(patient_id)
 
         for patient in patients:
+            self.patient_id = patient.id
+
             self.lName.setText(f"ФИО: {patient.full_name}")
             self.lAgeBirthday.setText(f"Дата рождения: {patient.birth_date}")
             self.lSex.setText(f"Пол: {patient.gender}")
@@ -215,3 +219,13 @@ class SimpleUI(QMainWindow):
                 self.lChrDiseases.setText(f"Хронические болезни: {patient.chronic_diseases}")
             if patient.prescribed_medications is not None:
                 self.lResDrugBody.setText(f"{patient.prescribed_medications}")
+
+    def finish_appointment(self):
+        self.database.save_appointment_data(
+            patient_id=self.patient_id,
+            symptoms=self.etSymptoms.toPlainText(),
+            diagnosis=self.etDiagnose.toPlainText(),
+            procedures=self.etProcedures.toPlainText(),
+            medications=self.etDrugs.toPlainText(),
+            notes=self.etNotes.toPlainText()
+        )
