@@ -1,4 +1,3 @@
-import os
 import wave
 import pyaudio
 from PyQt6.QtCore import QThread, pyqtSignal

@@ -10,6 +10,7 @@ from PyQt6.QtWidgets import (
     QLabel, QGroupBox, QHBoxLayout
 )
 from audio_processor import AudioProcessor
+from db.mysql_connector import MySqlConnector
 
 
 class SimpleUI(QMainWindow):
@@ -18,6 +19,7 @@ class SimpleUI(QMainWindow):
         super().__init__()
         self.audio_processor = AudioProcessor()
         self.audio_processor.entities_recognition_done.connect(self.parse_entities)
+        self.database = MySqlConnector()
 
         self.setWindowTitle("Новый прием")
         self.setFixedSize(1200, 750)
@@ -177,6 +179,11 @@ class SimpleUI(QMainWindow):
 
         right_column.addLayout(bottom_button_layout)
 
+        self.get_info_by_database(2)
+
+    def closeEvent(self, event):
+        self.database.close_db_connection()
+
     def parse_entities(self, entities_dictionary: Dict):
 
         for ent_obj in entities_dictionary["entities"]["Drugname"]:
@@ -187,3 +194,24 @@ class SimpleUI(QMainWindow):
 
         for ent_obj in entities_dictionary["entities"]["procedure"]:
             self.etProcedures.append("-" + ent_obj["text"] + "\n")
+
+    def get_info_by_database(self, patient_id):
+        patients = self.database.get_info_about_patient(patient_id)
+
+        for patient in patients:
+            self.lName.setText(f"ФИО: {patient.full_name}")
+            self.lAgeBirthday.setText(f"Дата рождения: {patient.birth_date}")
+            self.lSex.setText(f"Пол: {patient.gender}")
+            self.lCardNum.setText(f"Номер медицинской карты: {patient.medical_card_number}")
+            self.lPolisNum.setText(f"Номер полиса: {patient.insurance_policy_number}")
+            if patient.allergies is None:
+                self.lAllergy.setText("Аллергии: -")
+            else:
+                self.lAllergy.setText(f"Аллергии: {patient.allergies}")
+            self.lBloodType.setText(f"Группа крови: {patient.blood_type}")
+            if patient.chronic_diseases is None:
+                self.lChrDiseases.setText("Хронические болезни: -")
+            else:
+                self.lChrDiseases.setText(f"Хронические болезни: {patient.chronic_diseases}")
+            if patient.prescribed_medications is not None:
+                self.lResDrugBody.setText(f"{patient.prescribed_medications}")
