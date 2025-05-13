@@ -10,14 +10,18 @@ from PyQt6.QtWidgets import (
     QLabel, QGroupBox, QHBoxLayout
 )
 from audio_processor import AudioProcessor
+from db.mysql_connector import MySqlConnector
 
 
 class SimpleUI(QMainWindow):
 
     def __init__(self):
         super().__init__()
+        self.patient_id = 0
+
         self.audio_processor = AudioProcessor()
         self.audio_processor.entities_recognition_done.connect(self.parse_entities)
+        self.database = MySqlConnector()
 
         self.setWindowTitle("Новый прием")
         self.setFixedSize(1200, 750)
@@ -167,6 +171,7 @@ class SimpleUI(QMainWindow):
         self.bStartStopReception.setStyleSheet(
             "font-size: 14px; background-color: #6D91FA; color: white; border-radius: 10px; padding: 8px 16px;"
             "margin-left: 10px; margin-right: 5px; margin-top: 25px;")
+        self.bStartStopReception.clicked.connect(self.audio_processor.start_process)
         bottom_button_layout.addWidget(self.bStartStopReception)
 
         self.bFinishReception = QPushButton("Завершить прием")
@@ -176,6 +181,11 @@ class SimpleUI(QMainWindow):
         bottom_button_layout.addWidget(self.bFinishReception)
 
         right_column.addLayout(bottom_button_layout)
+
+        self.get_info_by_database(2)
+
+    def closeEvent(self, event):
+        self.database.close_db_connection()
 
     def parse_entities(self, entities_dictionary: Dict):
 
@@ -187,3 +197,36 @@ class SimpleUI(QMainWindow):
 
         for ent_obj in entities_dictionary["entities"]["procedure"]:
             self.etProcedures.append("-" + ent_obj["text"] + "\n")
+
+    def get_info_by_database(self, patient_id):
+        patients = self.database.get_info_about_patient(patient_id)
+
+        for patient in patients:
+            self.patient_id = patient.id
+
+            self.lName.setText(f"ФИО: {patient.full_name}")
+            self.lAgeBirthday.setText(f"Дата рождения: {patient.birth_date}")
+            self.lSex.setText(f"Пол: {patient.gender}")
+            self.lCardNum.setText(f"Номер медицинской карты: {patient.medical_card_number}")
+            self.lPolisNum.setText(f"Номер полиса: {patient.insurance_policy_number}")
+            if patient.allergies is None:
+                self.lAllergy.setText("Аллергии: -")
+            else:
+                self.lAllergy.setText(f"Аллергии: {patient.allergies}")
+            self.lBloodType.setText(f"Группа крови: {patient.blood_type}")
+            if patient.chronic_diseases is None:
+                self.lChrDiseases.setText("Хронические болезни: -")
+            else:
+                self.lChrDiseases.setText(f"Хронические болезни: {patient.chronic_diseases}")
+            if patient.prescribed_medications is not None:
+                self.lResDrugBody.setText(f"{patient.prescribed_medications}")
+
+    def finish_appointment(self):
+        self.database.save_appointment_data(
+            patient_id=self.patient_id,
+            symptoms=self.etSymptoms.toPlainText(),
+            diagnosis=self.etDiagnose.toPlainText(),
+            procedures=self.etProcedures.toPlainText(),
+            medications=self.etDrugs.toPlainText(),
+            notes=self.etNotes.toPlainText()
+        )

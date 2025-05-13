@@ -1,4 +1,3 @@
-import os
 import wave
 import pyaudio
 from PyQt6.QtCore import QThread, pyqtSignal
@@ -8,7 +7,7 @@ class AudioRecorder(QThread):
     signal_with_result = pyqtSignal(str)
     signal_with_error = pyqtSignal(str)
 
-    def __init__(self, sample_rate = 16000, duration = 5):
+    def __init__(self, sample_rate = 16000, duration = 10):
         super().__init__()
         self.sample_rate = sample_rate
         self.duration = duration
