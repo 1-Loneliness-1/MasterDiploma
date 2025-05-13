@@ -22,7 +22,7 @@ class AudioTranscriber(QThread):
 
             if self.whisper_model is None:
                 device = "cuda" if torch.cuda.is_available() else "cpu"
-                self.whisper_model = whisper.load_model("small", device = device)
+                self.whisper_model = whisper.load_model("large-v3", device = device)
             res = self.whisper_model.transcribe(
                 self.file_path_with_audio,
                 language="ru",
