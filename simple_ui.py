@@ -1,6 +1,7 @@
 from typing import Dict
 
 from PyQt6 import QtGui, QtCore
+from PyQt6.QtCore import Qt, Q_ARG, QMetaObject, QTimer
 from PyQt6.QtWidgets import (
     QMainWindow,
     QVBoxLayout,
@@ -11,13 +12,14 @@ from PyQt6.QtWidgets import (
 )
 from audio_processor import AudioProcessor
 from db.mysql_connector import MySqlConnector
+from toast_widget import ToastWidget
 
 
 class SimpleUI(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.patient_id = 0
+        self.patient_id = 2
 
         self.audio_processor = AudioProcessor()
         self.audio_processor.entities_recognition_done.connect(self.parse_entities)
@@ -171,13 +173,14 @@ class SimpleUI(QMainWindow):
         self.bStartStopReception.setStyleSheet(
             "font-size: 14px; background-color: #6D91FA; color: white; border-radius: 10px; padding: 8px 16px;"
             "margin-left: 10px; margin-right: 5px; margin-top: 25px;")
-        self.bStartStopReception.clicked.connect(self.audio_processor.start_process)
+        self.bStartStopReception.clicked.connect(self.toggle_recording)
         bottom_button_layout.addWidget(self.bStartStopReception)
 
         self.bFinishReception = QPushButton("Завершить прием")
         self.bFinishReception.setStyleSheet(
             "font-size: 14px; color: white; background-color: #FF8080; border-radius: 10px; padding: 8px 16px;"
             "margin-left: 5px; margin-right: 10px; margin-top: 25px;")
+        self.bFinishReception.clicked.connect(self.finish_appointment)
         bottom_button_layout.addWidget(self.bFinishReception)
 
         right_column.addLayout(bottom_button_layout)
@@ -186,6 +189,16 @@ class SimpleUI(QMainWindow):
 
     def closeEvent(self, event):
         self.database.close_db_connection()
+
+    def toggle_recording(self):
+        if self.audio_processor.recording_active:
+            self.display_toast("Запись остановлена", duration=1500)
+            self.audio_processor.stop_process()
+            self.bStartStopReception.setText("Начать прием")
+        else:
+            self.display_toast("Запись начата", duration=1500)
+            self.audio_processor.start_process()
+            self.bStartStopReception.setText("Остановить прием")
 
     def parse_entities(self, entities_dictionary: Dict):
 
@@ -221,7 +234,11 @@ class SimpleUI(QMainWindow):
             if patient.prescribed_medications is not None:
                 self.lResDrugBody.setText(f"{patient.prescribed_medications}")
 
+    def display_toast(self, message: str, duration: int = 1500):
+        QTimer.singleShot(0, lambda: ToastWidget(self, message, duration))
+
     def finish_appointment(self):
+        self.display_toast("Шифрование и сохранение данных", duration=1500)
         self.database.save_appointment_data(
             patient_id=self.patient_id,
             symptoms=self.etSymptoms.toPlainText(),

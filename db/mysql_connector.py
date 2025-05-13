@@ -27,7 +27,7 @@ class MySqlConnector:
             symptoms=self.encryptor.encrypt_data(symptoms),
             diagnosis=self.encryptor.encrypt_data(diagnosis),
             procedures=self.encryptor.encrypt_data(procedures),
-            medications=self.encryptor.encrypt_data(medications),
+            prescribed_medications=self.encryptor.encrypt_data(medications),
             notes=self.encryptor.encrypt_data(notes)
         )
         self.session.add(encrypted_data)
