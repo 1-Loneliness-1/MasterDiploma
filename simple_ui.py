@@ -171,6 +171,7 @@ class SimpleUI(QMainWindow):
         self.bStartStopReception.setStyleSheet(
             "font-size: 14px; background-color: #6D91FA; color: white; border-radius: 10px; padding: 8px 16px;"
             "margin-left: 10px; margin-right: 5px; margin-top: 25px;")
+        self.bStartStopReception.clicked.connect(self.audio_processor.start_process)
         bottom_button_layout.addWidget(self.bStartStopReception)
 
         self.bFinishReception = QPushButton("Завершить прием")
