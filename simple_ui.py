@@ -1,7 +1,7 @@
 from typing import Dict
 
 from PyQt6 import QtGui, QtCore
-from PyQt6.QtCore import Qt, Q_ARG, QMetaObject, QTimer
+from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import (
     QMainWindow,
     QVBoxLayout,
@@ -68,7 +68,6 @@ class SimpleUI(QMainWindow):
 
         left_column.addWidget(self.gbPatientInfo)
 
-        # Блок с редактируемыми текстовыми полями
         text_blocks_layout = QVBoxLayout()
         text_blocks_layout.setSpacing(0)
         left_column.addLayout(text_blocks_layout)
@@ -95,7 +94,6 @@ class SimpleUI(QMainWindow):
         symptoms_block, self.etSymptoms = create_text_block("Симптомы", "Начинайте записывать симптомы...")
         text_blocks_layout.addLayout(symptoms_block, stretch=1)
 
-        # Сложный блок с оставшимися 3-мя текстовыми полями
         horizontal_layout = QHBoxLayout()
         horizontal_layout.setSpacing(0)
         text_blocks_layout.addLayout(horizontal_layout, stretch=1)
@@ -110,7 +108,6 @@ class SimpleUI(QMainWindow):
         drugs_block, self.etDrugs = create_text_block("Лекарства", "Введите назначаемые лекарства...")
         diagnosis_and_drugs_layout.addLayout(drugs_block)
 
-        # Создание блока для ввода текста направлений на анализы
         procedure_block = QVBoxLayout()
         procedure_block.setSpacing(0)
         self.lProcedures = QLabel("Процедуры")
@@ -129,7 +126,6 @@ class SimpleUI(QMainWindow):
 
         horizontal_layout.addLayout(procedure_block)
 
-        # Второй столбец элементов
         right_column = QVBoxLayout()
         right_column.setSpacing(0)
         main_layout.addLayout(right_column, stretch=2)
@@ -238,7 +234,7 @@ class SimpleUI(QMainWindow):
         QTimer.singleShot(0, lambda: ToastWidget(self, message, duration))
 
     def finish_appointment(self):
-        self.display_toast("Шифрование и сохранение данных", duration=1500)
+        self.display_toast("Шифрование и сохранение\nданных", duration=1500)
         self.database.save_appointment_data(
             patient_id=self.patient_id,
             symptoms=self.etSymptoms.toPlainText(),

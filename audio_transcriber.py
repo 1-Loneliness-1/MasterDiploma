@@ -3,8 +3,8 @@ import torch
 import whisper
 from ffmpeg_downloader.qt.wizard import QThread, pyqtSignal
 
-class AudioTranscriber(QThread):
 
+class AudioTranscriber(QThread):
     signal_with_result = pyqtSignal(str)
     signal_with_error = pyqtSignal(str)
 
@@ -22,11 +22,11 @@ class AudioTranscriber(QThread):
 
             if self.whisper_model is None:
                 device = "cuda" if torch.cuda.is_available() else "cpu"
-                self.whisper_model = whisper.load_model("large-v3", device = device)
+                self.whisper_model = whisper.load_model("large-v3", device=device)
             res = self.whisper_model.transcribe(
                 self.file_path_with_audio,
                 language="ru",
-                fp16= False,
+                fp16=False,
                 no_speech_threshold=0.4
             )
             self.signal_with_result.emit(res["text"])
