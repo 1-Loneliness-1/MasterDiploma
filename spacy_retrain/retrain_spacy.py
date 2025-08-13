@@ -4,8 +4,6 @@ from spacy.tokens import DocBin
 from spacy.lang.ru import Russian
 from spacy.util import get_lang_class
 
-from spacy_retrain.data_for_train import train_data
-
 
 def split_spacy_to_train_and_dev(
         input_path: str,
@@ -15,7 +13,6 @@ def split_spacy_to_train_and_dev(
         lang: str = "ru",
         seed: int = 42
 ):
-
     nlp = get_lang_class(lang)()
     doc_bin = DocBin().from_disk(input_path)
     docs = list(doc_bin.get_docs(nlp.vocab))
@@ -31,7 +28,6 @@ def split_spacy_to_train_and_dev(
 
     dev_bin = DocBin(docs=dev_docs)
     dev_bin.to_disk(dev_path)
-
 
 
 def convert_data_to_spacy_and_save(training_data):

@@ -19,7 +19,6 @@ class MedicalNER(QThread):
             if self.nlp is None:
                 self.nlp = spacy.load(self.spacy_model)
 
-            # Извлечение сущностей
             doc = self.nlp(self.text_for_ner)
             entities = {label: [] for label in self.entity_types}
 

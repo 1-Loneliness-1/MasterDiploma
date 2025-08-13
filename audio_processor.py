@@ -1,4 +1,5 @@
 import logging
+import time
 from typing import Dict
 from PyQt6.QtCore import QObject, pyqtSignal
 
@@ -27,31 +28,37 @@ class AudioProcessor(QObject):
 
     def _start_recording(self):
         logging.debug("Запуск записи...")
+        self.rec_start = time.perf_counter()
         self.recorder = AudioRecorder(duration=5)  # 5 секунд записи
         self.recorder.signal_with_result.connect(self.handle_audio_ready)
         self.recorder.signal_with_error.connect(self.handle_error)
         self.recorder.start()
 
     def handle_audio_ready(self, file_path):
-        logging.debug(f"Получен аудиофайл: {file_path}")
+        self.rec_end = time.perf_counter()
         self.recorder = None
 
         self.transcriber = AudioTranscriber(file_path)
         self.transcriber.signal_with_result.connect(self.handle_transcription)
         self.transcriber.signal_with_error.connect(self.handle_error)
+        self.transcript_start = time.perf_counter()
         self.transcriber.start()
 
     def handle_transcription(self, text):
-        logging.debug("Транскрипция завершена")
+        self.transcript_end = time.perf_counter()
         self.transcriber = None
 
         self.nlp = MedicalNER(text)
         self.nlp.signal_with_res.connect(self.handle_ner_done)
         self.nlp.signal_with_error.connect(self.handle_error)
+        self.nlp_start = time.perf_counter()
         self.nlp.start()
 
     def handle_ner_done(self, entities_dictionary: Dict):
-        logging.debug("NER завершено")
+        self.nlp_end = time.perf_counter()
+        print(f"Запись: {self.rec_end - self.rec_start:.2f} c.")
+        print(f"Транскрибирование: {self.transcript_end - self.transcript_start:.2f} c.")
+        print(f"Распознавание сущностей: {self.nlp_end - self.nlp_start:.2f} c.")
         self.nlp = None
         self.entities_recognition_done.emit(entities_dictionary)
 
